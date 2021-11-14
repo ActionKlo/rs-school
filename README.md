@@ -1,4 +1,4 @@
-# Dillinger
+# Ciphering CLI Tool
 ## Инструкция запуска
 
 ```sh
