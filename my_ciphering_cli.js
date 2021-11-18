@@ -9,34 +9,19 @@ var Transform = stream.Transform ||
 const cesar = require('./cesar')
 const atbash = require('./atbash')
 const configCheck = require('./configCheck')
-const e = require('./error')
+const e = require('./error').error
 const encode = require('./encode')
 
 const input = process.stdin
 const output = process.stdout
+const checkConfig = require('./optionsCheck').checkConfig
+const checkInputFile = require('./optionsCheck').checkInputFile
+const checkOutputFile = require('./optionsCheck').checkOutputFile
 
-let arr = process.argv, inputFile = 0, outputFile = 0, config = 0
-
-for (let i = 0; i < arr.length; i++) {
-
-	if (arr[i] == "-c" || arr[i] == "--config" && !config) {
-		config = arr[i + 1]
-	} else if (arr[i] == "-c" || arr[i] == "--config" && config) {
-		e("Config dublicated", 2)
-	}
-
-	if (arr[i] == "-i" || arr[i] == "--input" && !inputFile) {
-		inputFile = arr[i + 1]
-	} else if (arr[i] == "-i" || arr[i] == "--input" && inputFile) {
-		e("Input file dublicated")
-	}
-
-	if (arr[i] == "-o" || arr[i] == "--output" && !outputFile) {
-		outputFile = arr[i + 1]
-	} else if (arr[i] == "-o" || arr[i] == "--output" && outputFile) {
-		e("Output file dublicated")
-	}
-}
+let arr = process.argv
+let config = checkConfig(arr)
+let inputFile = checkInputFile(arr)
+let outputFile = checkOutputFile(arr)
 
 if (!config) {
 	e("Config not found", 404)
