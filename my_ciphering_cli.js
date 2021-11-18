@@ -9,7 +9,7 @@ var Transform = stream.Transform ||
 const cesar = require('./cesar')
 const atbash = require('./atbash')
 const configCheck = require('./configCheck')
-const e = require('./error')
+const e = require('./error').error
 const encode = require('./encode')
 
 const input = process.stdin
