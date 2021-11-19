@@ -16,7 +16,7 @@ exports.createConfig = (str) => {
       e.error("Invalid config", 1)
     }
   }
-  console.log(typeof arr)
+  
   return arr
   /**
    * Второй вариант проверки валидности конфига
