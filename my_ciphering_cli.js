@@ -12,8 +12,6 @@ const configCheck = require('./configCheck')
 const e = require('./error').error
 const encode = require('./encode')
 
-const input = process.stdin
-const output = process.stdout
 const checkConfig = require('./optionsCheck').checkConfig
 const checkInputFile = require('./optionsCheck').checkInputFile
 const checkOutputFile = require('./optionsCheck').checkOutputFile
@@ -46,6 +44,8 @@ const ts = new Transform({
 		this.push(encode.start(chunk.toString(), configArr))
 	}
 })
+
+console.log(ts._transform("az", "", (err)=>{console.log(err.message)}))
 
 rs
 	.on('error', (error) => {
