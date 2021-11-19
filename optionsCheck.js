@@ -1,30 +1,39 @@
 const e = require('./error').error
+const fs = require('fs')
+const path = require('path')
+
+function checkFile(file) {
+	if (file && !fs.existsSync(path.join(__dirname, file))) {
+		e("Input and/or Output file not found", 404)
+	}
+
+	return file
+}
 
 exports.checkInputFile = (arr) => {
-	console.log(arr)
 	let inputFile = 0
 	for (let i = 0; i < arr.length; i++) {	
-		if (arr[i] == "-i" || arr[i] == "--input" && !inputFile) {
-			return inputFile = arr[i + 1]
-		} else if (arr[i] == "-i" || arr[i] == "--input" && inputFile) {
+		if ((arr[i] == "-i" || arr[i] == "--input") && !inputFile) {
+			inputFile = arr[i + 1]
+		} else if ((arr[i] == "-i" || arr[i] == "--input") && inputFile) {
 			e("Input file dublicated", 2)
 		}
 	}
-
-	return inputFile == 0 ? e("Input file not foun", 2) : inputFile
+	
+	return checkFile(inputFile)
 }
 
 exports.checkOutputFile = (arr) => {
 	let outputFile = 0
 	for (let i = 0; i < arr.length; i++) {	
-		if (arr[i] == "-o" || arr[i] == "--output" && !outputFile) {
+		if ((arr[i] == "-o" || arr[i] == "--output") && !outputFile) {
 			outputFile = arr[i + 1]
-		} else if (arr[i] == "-o" || arr[i] == "--output" && outputFile) {
+		} else if ((arr[i] == "-o" || arr[i] == "--output") && outputFile) {
 			e("Output file dublicated", 2)
 		}
 	}
 
-	return outputFile == 0 ? e("Output file not foun", 2) : outputFile
+	return checkFile(outputFile)
 }
 
 exports.checkConfig = (arr) => {

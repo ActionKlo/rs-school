@@ -25,10 +25,6 @@ if (!config) {
 	e("Config not found", 404)
 }
 
-if ((inputFile && !fs.existsSync(path.join(__dirname, inputFile))) || (outputFile && !fs.existsSync(path.join(__dirname, outputFile)))) {
-	e("Input and/or Output file not found", 404)
-}
-
 let configArr = []
 if(!configCheck.createConfig(config)) {
 	e("Invalid config", 2)
