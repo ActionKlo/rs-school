@@ -1,13 +1,9 @@
 const process = require('process')
-const path = require('path')
 const fs = require('fs')
-// const Transform = require('stream').Transform
 var stream = require('stream')
 var Transform = stream.Transform ||
-  require('readable-stream').Transform;
+  require('readable-stream').Transform
 
-const cesar = require('./cesar')
-const atbash = require('./atbash')
 const configCheck = require('./configCheck')
 const e = require('./error').error
 const encode = require('./encode')
@@ -21,27 +17,16 @@ let config = checkConfig(arr)
 let inputFile = checkInputFile(arr)
 let outputFile = checkOutputFile(arr)
 
-if (!config) {
-	e("Config not found", 404)
-}
+let configArr = configCheck.createConfig(config)
 
-let configArr = []
-if(!configCheck.createConfig(config)) {
-	e("Invalid config", 2)
-}
-
-configArr = configCheck.createConfig(config)
-
-const ws = outputFile ? fs.createWriteStream(outputFile, {flags: 'a'}) : process.stdin
-const rs = inputFile ? fs.createReadStream(inputFile) : process.stdout
+const ws = outputFile ? fs.createWriteStream(outputFile, {flags: 'a'}) : process.stdout
+const rs = inputFile ? fs.createReadStream(inputFile) : process.stdin
 
 const ts = new Transform({
 	transform(chunk, encodind, callback) {
 		this.push(encode.start(chunk.toString(), configArr))
 	}
 })
-
-console.log(ts._transform("az", "", (err)=>{console.log(err.message)}))
 
 rs
 	.on('error', (error) => {
